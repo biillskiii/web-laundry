@@ -1,8 +1,10 @@
 "use client";
 import React, { useState } from "react";
-import { ToastContainer, toast } from "react-toastify";
+import { toast } from "react-toastify";
 import Sidebar from "@/components/sidebar";
 import ClientLayout from "@/components/layout/ClientLayout";
+import { AiOutlineLoading3Quarters } from "react-icons/ai";
+
 const LaundryForm = () => {
   const [form, setForm] = useState({
     nama: "",
@@ -11,7 +13,7 @@ const LaundryForm = () => {
     jenisPembayaran: "",
     addon: "",
   });
-
+  const [loading, setLoading] = useState(false);
   const [errors, setErrors] = useState<any>({});
 
   const handleChange = (e: any) => {
@@ -38,6 +40,8 @@ const LaundryForm = () => {
     e.preventDefault();
     if (!validate()) return;
 
+    setLoading(true);
+
     try {
       const res = await fetch("/api/add-laundry", {
         method: "POST",
@@ -54,21 +58,28 @@ const LaundryForm = () => {
       const data = await res.json();
 
       if (!res.ok) {
-        toast.error(data.error || "Error, entah kenapa.");
+        toast.error(data.error || "Error, coba tanya tim IT.");
         return;
       }
-
       toast.success("Mantap, data ke-save cuy.");
+      setForm({
+        nama: "",
+        jenisCucian: "",
+        weight: "",
+        jenisPembayaran: "",
+        addon: "",
+      });
+      setErrors({});
     } catch (err) {
       toast.error("Servernya ngadat cuyy, coba contact tim IT.");
+    } finally {
+      setLoading(false);
     }
   };
 
   return (
     <ClientLayout sidebar={<Sidebar activeItem="Dashboard" isOpen />}>
       <div className="w-full flex my-10">
-        <ToastContainer />
-
         <form
           onSubmit={handleSubmit}
           className="p-6 w-full max-w-md flex flex-col gap-5 bg-gray-800 text-white rounded-2xl shadow-lg mt-10 mx-auto"
@@ -155,10 +166,15 @@ const LaundryForm = () => {
               <span className="text-red-500 text-sm">{errors.addon}</span>
             )}
           </div>
-
-          <button className="w-full py-3 rounded-lg bg-black text-white font-semibold hover:bg-black/80 transition">
-            Submit
-          </button>
+          {loading ? (
+            <button className="w-full py-3 rounded-lg bg-black flex justify-center items-center text-white font-semibold hover:bg-black/80 transition">
+              <AiOutlineLoading3Quarters className="animate-spin" width={50} />
+            </button>
+          ) : (
+            <button className="w-full py-3 rounded-lg bg-black text-white font-semibold hover:bg-black/80 transition">
+              Submit
+            </button>
+          )}
         </form>
       </div>
     </ClientLayout>
