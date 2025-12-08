@@ -43,6 +43,7 @@ export type RiwayatMinAggregateOutputType = {
   berat: number | null
   tipePembayaran: string | null
   addOn: string | null
+  harga: string | null
   createdAt: Date | null
 }
 
@@ -53,6 +54,7 @@ export type RiwayatMaxAggregateOutputType = {
   berat: number | null
   tipePembayaran: string | null
   addOn: string | null
+  harga: string | null
   createdAt: Date | null
 }
 
@@ -63,6 +65,7 @@ export type RiwayatCountAggregateOutputType = {
   berat: number
   tipePembayaran: number
   addOn: number
+  harga: number
   createdAt: number
   _all: number
 }
@@ -85,6 +88,7 @@ export type RiwayatMinAggregateInputType = {
   berat?: true
   tipePembayaran?: true
   addOn?: true
+  harga?: true
   createdAt?: true
 }
 
@@ -95,6 +99,7 @@ export type RiwayatMaxAggregateInputType = {
   berat?: true
   tipePembayaran?: true
   addOn?: true
+  harga?: true
   createdAt?: true
 }
 
@@ -105,6 +110,7 @@ export type RiwayatCountAggregateInputType = {
   berat?: true
   tipePembayaran?: true
   addOn?: true
+  harga?: true
   createdAt?: true
   _all?: true
 }
@@ -202,6 +208,7 @@ export type RiwayatGroupByOutputType = {
   berat: number
   tipePembayaran: string
   addOn: string
+  harga: string
   createdAt: Date
   _count: RiwayatCountAggregateOutputType | null
   _avg: RiwayatAvgAggregateOutputType | null
@@ -235,6 +242,7 @@ export type RiwayatWhereInput = {
   berat?: Prisma.FloatFilter<"Riwayat"> | number
   tipePembayaran?: Prisma.StringFilter<"Riwayat"> | string
   addOn?: Prisma.StringFilter<"Riwayat"> | string
+  harga?: Prisma.StringFilter<"Riwayat"> | string
   createdAt?: Prisma.DateTimeFilter<"Riwayat"> | Date | string
 }
 
@@ -245,6 +253,7 @@ export type RiwayatOrderByWithRelationInput = {
   berat?: Prisma.SortOrder
   tipePembayaran?: Prisma.SortOrder
   addOn?: Prisma.SortOrder
+  harga?: Prisma.SortOrder
   createdAt?: Prisma.SortOrder
 }
 
@@ -258,6 +267,7 @@ export type RiwayatWhereUniqueInput = Prisma.AtLeast<{
   berat?: Prisma.FloatFilter<"Riwayat"> | number
   tipePembayaran?: Prisma.StringFilter<"Riwayat"> | string
   addOn?: Prisma.StringFilter<"Riwayat"> | string
+  harga?: Prisma.StringFilter<"Riwayat"> | string
   createdAt?: Prisma.DateTimeFilter<"Riwayat"> | Date | string
 }, "id">
 
@@ -268,6 +278,7 @@ export type RiwayatOrderByWithAggregationInput = {
   berat?: Prisma.SortOrder
   tipePembayaran?: Prisma.SortOrder
   addOn?: Prisma.SortOrder
+  harga?: Prisma.SortOrder
   createdAt?: Prisma.SortOrder
   _count?: Prisma.RiwayatCountOrderByAggregateInput
   _avg?: Prisma.RiwayatAvgOrderByAggregateInput
@@ -286,6 +297,7 @@ export type RiwayatScalarWhereWithAggregatesInput = {
   berat?: Prisma.FloatWithAggregatesFilter<"Riwayat"> | number
   tipePembayaran?: Prisma.StringWithAggregatesFilter<"Riwayat"> | string
   addOn?: Prisma.StringWithAggregatesFilter<"Riwayat"> | string
+  harga?: Prisma.StringWithAggregatesFilter<"Riwayat"> | string
   createdAt?: Prisma.DateTimeWithAggregatesFilter<"Riwayat"> | Date | string
 }
 
@@ -295,6 +307,7 @@ export type RiwayatCreateInput = {
   berat: number
   tipePembayaran: string
   addOn: string
+  harga: string
   createdAt?: Date | string
 }
 
@@ -305,6 +318,7 @@ export type RiwayatUncheckedCreateInput = {
   berat: number
   tipePembayaran: string
   addOn: string
+  harga: string
   createdAt?: Date | string
 }
 
@@ -314,6 +328,7 @@ export type RiwayatUpdateInput = {
   berat?: Prisma.FloatFieldUpdateOperationsInput | number
   tipePembayaran?: Prisma.StringFieldUpdateOperationsInput | string
   addOn?: Prisma.StringFieldUpdateOperationsInput | string
+  harga?: Prisma.StringFieldUpdateOperationsInput | string
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
 }
 
@@ -324,6 +339,7 @@ export type RiwayatUncheckedUpdateInput = {
   berat?: Prisma.FloatFieldUpdateOperationsInput | number
   tipePembayaran?: Prisma.StringFieldUpdateOperationsInput | string
   addOn?: Prisma.StringFieldUpdateOperationsInput | string
+  harga?: Prisma.StringFieldUpdateOperationsInput | string
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
 }
 
@@ -334,6 +350,7 @@ export type RiwayatCreateManyInput = {
   berat: number
   tipePembayaran: string
   addOn: string
+  harga: string
   createdAt?: Date | string
 }
 
@@ -343,6 +360,7 @@ export type RiwayatUpdateManyMutationInput = {
   berat?: Prisma.FloatFieldUpdateOperationsInput | number
   tipePembayaran?: Prisma.StringFieldUpdateOperationsInput | string
   addOn?: Prisma.StringFieldUpdateOperationsInput | string
+  harga?: Prisma.StringFieldUpdateOperationsInput | string
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
 }
 
@@ -353,6 +371,7 @@ export type RiwayatUncheckedUpdateManyInput = {
   berat?: Prisma.FloatFieldUpdateOperationsInput | number
   tipePembayaran?: Prisma.StringFieldUpdateOperationsInput | string
   addOn?: Prisma.StringFieldUpdateOperationsInput | string
+  harga?: Prisma.StringFieldUpdateOperationsInput | string
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
 }
 
@@ -363,6 +382,7 @@ export type RiwayatCountOrderByAggregateInput = {
   berat?: Prisma.SortOrder
   tipePembayaran?: Prisma.SortOrder
   addOn?: Prisma.SortOrder
+  harga?: Prisma.SortOrder
   createdAt?: Prisma.SortOrder
 }
 
@@ -378,6 +398,7 @@ export type RiwayatMaxOrderByAggregateInput = {
   berat?: Prisma.SortOrder
   tipePembayaran?: Prisma.SortOrder
   addOn?: Prisma.SortOrder
+  harga?: Prisma.SortOrder
   createdAt?: Prisma.SortOrder
 }
 
@@ -388,6 +409,7 @@ export type RiwayatMinOrderByAggregateInput = {
   berat?: Prisma.SortOrder
   tipePembayaran?: Prisma.SortOrder
   addOn?: Prisma.SortOrder
+  harga?: Prisma.SortOrder
   createdAt?: Prisma.SortOrder
 }
 
@@ -429,6 +451,7 @@ export type RiwayatSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs 
   berat?: boolean
   tipePembayaran?: boolean
   addOn?: boolean
+  harga?: boolean
   createdAt?: boolean
 }, ExtArgs["result"]["riwayat"]>
 
@@ -439,6 +462,7 @@ export type RiwayatSelectCreateManyAndReturn<ExtArgs extends runtime.Types.Exten
   berat?: boolean
   tipePembayaran?: boolean
   addOn?: boolean
+  harga?: boolean
   createdAt?: boolean
 }, ExtArgs["result"]["riwayat"]>
 
@@ -449,6 +473,7 @@ export type RiwayatSelectUpdateManyAndReturn<ExtArgs extends runtime.Types.Exten
   berat?: boolean
   tipePembayaran?: boolean
   addOn?: boolean
+  harga?: boolean
   createdAt?: boolean
 }, ExtArgs["result"]["riwayat"]>
 
@@ -459,10 +484,11 @@ export type RiwayatSelectScalar = {
   berat?: boolean
   tipePembayaran?: boolean
   addOn?: boolean
+  harga?: boolean
   createdAt?: boolean
 }
 
-export type RiwayatOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "nama" | "jenisCucian" | "berat" | "tipePembayaran" | "addOn" | "createdAt", ExtArgs["result"]["riwayat"]>
+export type RiwayatOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "nama" | "jenisCucian" | "berat" | "tipePembayaran" | "addOn" | "harga" | "createdAt", ExtArgs["result"]["riwayat"]>
 
 export type $RiwayatPayload<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   name: "Riwayat"
@@ -474,6 +500,7 @@ export type $RiwayatPayload<ExtArgs extends runtime.Types.Extensions.InternalArg
     berat: number
     tipePembayaran: string
     addOn: string
+    harga: string
     createdAt: Date
   }, ExtArgs["result"]["riwayat"]>
   composites: {}
@@ -904,6 +931,7 @@ export interface RiwayatFieldRefs {
   readonly berat: Prisma.FieldRef<"Riwayat", 'Float'>
   readonly tipePembayaran: Prisma.FieldRef<"Riwayat", 'String'>
   readonly addOn: Prisma.FieldRef<"Riwayat", 'String'>
+  readonly harga: Prisma.FieldRef<"Riwayat", 'String'>
   readonly createdAt: Prisma.FieldRef<"Riwayat", 'DateTime'>
 }
     

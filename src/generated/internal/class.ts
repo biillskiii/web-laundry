@@ -20,7 +20,7 @@ const config: runtime.GetPrismaClientConfig = {
   "clientVersion": "7.1.0",
   "engineVersion": "ab635e6b9d606fa5c8fb8b1a7f909c3c3c1c98ba",
   "activeProvider": "postgresql",
-  "inlineSchema": "generator client {\n  provider = \"prisma-client\"\n  output   = \"../src/generated\"\n}\n\ndatasource db {\n  provider = \"postgresql\"\n}\n\nmodel Riwayat {\n  id             Int      @id @default(autoincrement())\n  nama           String\n  jenisCucian    String\n  berat          Float\n  tipePembayaran String\n  addOn          String\n  createdAt      DateTime @default(now())\n}\n",
+  "inlineSchema": "generator client {\n  provider = \"prisma-client\"\n  output   = \"../src/generated\"\n}\n\ndatasource db {\n  provider = \"postgresql\"\n}\n\nmodel Riwayat {\n  id             Int      @id @default(autoincrement())\n  nama           String\n  jenisCucian    String\n  berat          Float\n  tipePembayaran String\n  addOn          String\n  harga          String\n  createdAt      DateTime @default(now())\n}\n",
   "runtimeDataModel": {
     "models": {},
     "enums": {},
@@ -28,7 +28,7 @@ const config: runtime.GetPrismaClientConfig = {
   }
 }
 
-config.runtimeDataModel = JSON.parse("{\"models\":{\"Riwayat\":{\"fields\":[{\"name\":\"id\",\"kind\":\"scalar\",\"type\":\"Int\"},{\"name\":\"nama\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"jenisCucian\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"berat\",\"kind\":\"scalar\",\"type\":\"Float\"},{\"name\":\"tipePembayaran\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"addOn\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"createdAt\",\"kind\":\"scalar\",\"type\":\"DateTime\"}],\"dbName\":null}},\"enums\":{},\"types\":{}}")
+config.runtimeDataModel = JSON.parse("{\"models\":{\"Riwayat\":{\"fields\":[{\"name\":\"id\",\"kind\":\"scalar\",\"type\":\"Int\"},{\"name\":\"nama\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"jenisCucian\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"berat\",\"kind\":\"scalar\",\"type\":\"Float\"},{\"name\":\"tipePembayaran\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"addOn\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"harga\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"createdAt\",\"kind\":\"scalar\",\"type\":\"DateTime\"}],\"dbName\":null}},\"enums\":{},\"types\":{}}")
 
 async function decodeBase64AsWasm(wasmBase64: string): Promise<WebAssembly.Module> {
   const { Buffer } = await import('node:buffer')
