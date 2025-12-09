@@ -10,7 +10,7 @@ datasource db {
 model Riwayat {
   id             Int      @id @default(autoincrement())
   nama           String
-  jenisCucian    String
+  jenisCucian    String[]
   berat          Float
   tipePembayaran String
   addOn          String[]

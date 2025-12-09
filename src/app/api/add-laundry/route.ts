@@ -3,16 +3,38 @@ export const runtime = "nodejs";
 import { NextResponse } from "next/server";
 import { prisma } from "@/lib/prisma";
 
+const addonPrices: Record<string, number> = {
+  parfum: 2000,
+  deterjen: 1000,
+  pewangi: 1000,
+  dropoff: 3000,
+};
+
 export async function POST(req: Request) {
   const body = await req.json();
   const { nama, jenisCucian, weight, jenisPembayaran, addon, harga, noHp } =
     body;
 
-  if (!nama || !jenisCucian || !weight || !jenisPembayaran || !harga || !noHp) {
+  if (
+    !nama ||
+    !Array.isArray(jenisCucian) ||
+    jenisCucian.length === 0 ||
+    !weight ||
+    !jenisPembayaran ||
+    !noHp
+  ) {
     return NextResponse.json(
       { error: "Data kurang lengkap." },
       { status: 400 }
     );
+  }
+
+  let finalHarga = 7000;
+
+  if (Array.isArray(addon)) {
+    addon.forEach((item) => {
+      finalHarga += addonPrices[item] || 0;
+    });
   }
 
   const created = await prisma.riwayat.create({
@@ -21,8 +43,8 @@ export async function POST(req: Request) {
       jenisCucian,
       berat: parseFloat(weight),
       tipePembayaran: jenisPembayaran,
-      addOn: Array.isArray(addon) ? addon : [], // INI FIX NYA
-      harga: harga || "",
+      addOn: addon || [],
+      harga: String(finalHarga),
       noHp: String(noHp),
     },
   });

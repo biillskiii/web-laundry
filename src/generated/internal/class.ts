@@ -20,7 +20,7 @@ const config: runtime.GetPrismaClientConfig = {
   "clientVersion": "7.1.0",
   "engineVersion": "ab635e6b9d606fa5c8fb8b1a7f909c3c3c1c98ba",
   "activeProvider": "postgresql",
-  "inlineSchema": "generator client {\n  provider = \"prisma-client\"\n  output   = \"../src/generated\"\n}\n\ndatasource db {\n  provider = \"postgresql\"\n}\n\nmodel Riwayat {\n  id             Int      @id @default(autoincrement())\n  nama           String\n  jenisCucian    String\n  berat          Float\n  tipePembayaran String\n  addOn          String[]\n  harga          String\n  noHp           String\n  createdAt      DateTime @default(now())\n}\n",
+  "inlineSchema": "generator client {\n  provider = \"prisma-client\"\n  output   = \"../src/generated\"\n}\n\ndatasource db {\n  provider = \"postgresql\"\n}\n\nmodel Riwayat {\n  id             Int      @id @default(autoincrement())\n  nama           String\n  jenisCucian    String[]\n  berat          Float\n  tipePembayaran String\n  addOn          String[]\n  harga          String\n  noHp           String\n  createdAt      DateTime @default(now())\n}\n",
   "runtimeDataModel": {
     "models": {},
     "enums": {},
