@@ -7,7 +7,7 @@ import Image from "next/image";
 import Logo from "../../../public/assets/logo.png";
 // --- Komponen MobileHeader kita gabungkan di sini ---
 const MobileHeader = ({ onMenuClick }: { onMenuClick: () => void }) => (
-  <header className="md:hidden flex items-center justify-between p-4 border-b border-gray-800 sticky top-0 bg-black/80 backdrop-blur-sm z-20">
+  <header className="md:hidden flex items-center justify-between p-4 border-b border-gray-800 sticky top-0 bg-[#084428] backdrop-blur-sm z-20">
     <button
       onClick={onMenuClick}
       className="p-2 cursor-pointer"
@@ -78,7 +78,7 @@ export default function ClientLayout({ sidebar, children }: ClientLayoutProps) {
       {/* Overlay */}
       {isOpen && (
         <div
-          className="fixed inset-0 bg-black/50 z-30 md:hidden"
+          className="fixed inset-0 bg-[#084428] z-30 md:hidden"
           onClick={() => setOpen(false)}
         />
       )}

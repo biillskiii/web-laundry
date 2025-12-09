@@ -29,8 +29,8 @@ const NavItem = ({
   return (
     <div
       onClick={onClick}
-      className={`flex items-center space-x-4 p-3 rounded-full hover:bg-gray-800 transition-colors duration-200 cursor-pointer ${
-        active ? "font-bold bg-gray-800" : ""
+      className={`flex items-center space-x-4 p-3 rounded-full transition-colors duration-200 cursor-pointer ${
+        active ? "font-bold bg-[#069c56]" : ""
       }`}
     >
       {iconComponent}
@@ -55,7 +55,7 @@ const Sidebar = ({ isOpen, activeItem }: SidebarProps) => {
   return (
     <aside
       className={`
-        fixed z-40 pt-10 mx-auto top-0 left-0 h-full bg-gray-900 border-r border-gray-800 flex flex-col justify-between
+        fixed z-40 pt-10 mx-auto top-0 left-0 h-full bg-[#084428] border-r border-gray-800 flex flex-col justify-between
         w-80 p-4 transition-transform duration-300
         -translate-x-full md:translate-x-0
         ${isOpen ? "translate-x-0" : ""}
