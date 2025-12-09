@@ -7,7 +7,7 @@ import ClientLayout from "@/components/layout/ClientLayout";
 type RiwayatType = {
   id: number;
   nama: string;
-  jenisCucian: string;
+  jenisCucian: string[];
   berat: number;
   tipePembayaran: string;
   addOn: string[];
@@ -42,16 +42,16 @@ const Riwayat = () => {
   return (
     <ClientLayout sidebar={<Sidebar activeItem="Riwayat" isOpen />}>
       <div className="flex w-full min-h-screen p-6">
-        <div className="w-full bg-gray-900 p-6 rounded-xl shadow-lg">
+        <div className="w-full bg-[#084428] p-6 rounded-xl shadow-lg">
           <h1 className="text-2xl font-bold mb-5">Riwayat Laundry</h1>
 
           {loading && <p>Loading bang sabar…</p>}
           {error && <p className="text-red-500">{error}</p>}
 
           {!loading && !error && (
-            <div className="overflow-x-auto rounded-lg border border-gray-700">
+            <div className="overflow-x-auto rounded-lg border border-black/80">
               <table className="w-full min-w-max">
-                <thead className="bg-gray-800">
+                <thead className="bg-black">
                   <tr>
                     <th className="p-3 border border-gray-700 whitespace-nowrap">
                       Nama
@@ -94,7 +94,9 @@ const Riwayat = () => {
                           {item.nama}
                         </td>
                         <td className="p-3 whitespace-nowrap capitalize">
-                          {item.jenisCucian}
+                         {item.jenisCucian && item.jenisCucian.length > 0
+                            ? item.jenisCucian.join(", ")
+                            : "-"}
                         </td>
                         <td className="p-3 whitespace-nowrap capitalize">
                           {item.berat} kg
