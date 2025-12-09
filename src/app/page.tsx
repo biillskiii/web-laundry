@@ -11,13 +11,30 @@ const LaundryForm = () => {
     jenisCucian: "",
     weight: "",
     jenisPembayaran: "",
-    addon: "",
+    addon: [] as string[],
+    harga: "7000",
+    noHp: "",
   });
   const [loading, setLoading] = useState(false);
   const [errors, setErrors] = useState<any>({});
 
   const handleChange = (e: any) => {
     setForm({ ...form, [e.target.name]: e.target.value });
+  };
+  const handleAddonChange = (e: any) => {
+    const { value, checked } = e.target;
+
+    if (checked) {
+      setForm((prev) => ({
+        ...prev,
+        addon: [...prev.addon, value],
+      }));
+    } else {
+      setForm((prev) => ({
+        ...prev,
+        addon: prev.addon.filter((item) => item !== value),
+      }));
+    }
   };
 
   const validate = () => {
@@ -30,6 +47,10 @@ const LaundryForm = () => {
       newErrors.weight = "Berat harus angka, jangan ngadi-ngadi.";
     if (!form.jenisPembayaran.trim())
       newErrors.jenisPembayaran = "Pilih metode pembayaran.";
+    if (!form.harga.trim() || isNaN(Number(form.harga)))
+      newErrors.harga = "Harga harus angka, jangan ngadi-ngadi.";
+    if (!form.noHp.trim() || isNaN(Number(form.noHp)))
+      newErrors.noHp = "No hp harus angka, jangan ngadi-ngadi.";
 
     setErrors(newErrors);
 
@@ -52,6 +73,8 @@ const LaundryForm = () => {
           weight: form.weight,
           jenisPembayaran: form.jenisPembayaran,
           addon: form.addon,
+          harga: form.harga,
+          noHp: form.noHp,
         }),
       });
 
@@ -67,7 +90,9 @@ const LaundryForm = () => {
         jenisCucian: "",
         weight: "",
         jenisPembayaran: "",
-        addon: "",
+        addon: [],
+        harga: "",
+        noHp: "",
       });
       setErrors({});
     } catch (err) {
@@ -79,10 +104,10 @@ const LaundryForm = () => {
 
   return (
     <ClientLayout sidebar={<Sidebar activeItem="Dashboard" isOpen />}>
-      <div className="w-full flex my-10">
+      <div className="w-full flex ">
         <form
           onSubmit={handleSubmit}
-          className="p-6 w-full max-w-md flex flex-col gap-5 bg-gray-800 text-white rounded-2xl shadow-lg mt-10 mx-auto"
+          className="p-6 w-full max-w-md flex flex-col gap-5 bg-[#084428] text-white rounded-2xl shadow-lg mt-10 mx-auto"
         >
           {/* NAMA */}
           <div className="flex flex-col gap-1">
@@ -106,7 +131,7 @@ const LaundryForm = () => {
               name="jenisCucian"
               value={form.jenisCucian}
               onChange={handleChange}
-              className="border rounded-lg px-3 py-2 bg-gray-800 focus:ring-2 focus:ring-black/40 outline-none"
+              className="border rounded-lg px-3 py-2 bg-[#084428] focus:ring-2 focus:ring-black/40 outline-none"
             >
               <option value="">-- Pilih Jenis --</option>
               <option value="cuci kering">Cuci Kering</option>
@@ -138,7 +163,7 @@ const LaundryForm = () => {
               name="jenisPembayaran"
               value={form.jenisPembayaran}
               onChange={handleChange}
-              className="border rounded-lg px-3 py-2 bg-gray-800 focus:ring-2 focus:ring-black/40 outline-none"
+              className="border rounded-lg px-3 py-2 bg-[#084428] focus:ring-2 focus:ring-black/40 outline-none"
             >
               <option value="">-- Pilih Pembayaran --</option>
               <option value="cash">Cash</option>
@@ -153,25 +178,91 @@ const LaundryForm = () => {
           </div>
 
           {/* ADD ON */}
+          <div className="flex flex-col gap-2">
+            <label className="text-white font-medium">AddOn</label>
+
+            <div className="flex justify-between">
+              <label className="flex items-center gap-2 cursor-pointer">
+                <input
+                  type="checkbox"
+                  name="addon"
+                  value="parfum"
+                  checked={form.addon.includes("parfum")}
+                  onChange={handleAddonChange}
+                />
+                Parfum
+              </label>
+
+              <label className="flex items-center gap-2 cursor-pointer">
+                <input
+                  type="checkbox"
+                  name="addon"
+                  value="deterjen"
+                  checked={form.addon.includes("deterjen")}
+                  onChange={handleAddonChange}
+                />
+                Deterjen
+              </label>
+
+              <label className="flex items-center gap-2 cursor-pointer">
+                <input
+                  type="checkbox"
+                  name="addon"
+                  value="pewangi"
+                  checked={form.addon.includes("pewangi")}
+                  onChange={handleAddonChange}
+                />
+                Pewangi
+              </label>
+
+              <label className="flex items-center gap-2 cursor-pointer">
+                <input
+                  type="checkbox"
+                  name="addon"
+                  value="dropoff"
+                  checked={form.addon.includes("dropoff")}
+                  onChange={handleAddonChange}
+                />
+                Drop-Off
+              </label>
+            </div>
+          </div>
+
+          {/* NO HP */}
           <div className="flex flex-col gap-1">
-            <label className="text-sm font-medium">Add On</label>
+            <label className="text-sm font-medium">No Hp</label>
             <input
               type="text"
-              name="addon"
-              value={form.addon}
+              name="noHp"
+              value={form.noHp}
               onChange={handleChange}
               className="border rounded-lg px-3 py-2 focus:ring-2 focus:ring-black/40 outline-none"
             />
-            {errors.addon && (
-              <span className="text-red-500 text-sm">{errors.addon}</span>
+            {errors.noHp && (
+              <span className="text-red-500 text-sm">{errors.noHp}</span>
             )}
           </div>
+          {/* HARGA */}
+          <div className="flex flex-col gap-1">
+            <label className="text-sm font-medium">Harga</label>
+            <input
+              type="text"
+              name="harga"
+              value={form.harga}
+              disabled
+              className="border cursor-not-allowed bg-[#084428] rounded-lg px-3 py-2 focus:ring-2 focus:ring-black/40 outline-none"
+            />
+            {errors.harga && (
+              <span className="text-red-500 text-sm">{errors.harga}</span>
+            )}
+          </div>
+
           {loading ? (
-            <button className="w-full py-3 rounded-lg bg-black flex justify-center items-center text-white font-semibold hover:bg-black/80 transition">
+            <button className="w-full py-3 rounded-lg bg-white flex justify-center items-center text-black font-semibold hover:bg-black/80 transition">
               <AiOutlineLoading3Quarters className="animate-spin" width={50} />
             </button>
           ) : (
-            <button className="w-full py-3 rounded-lg bg-black text-white font-semibold hover:bg-black/80 transition">
+            <button className="w-full py-3 rounded-lg bg-white text-black font-bold hover:bg-black/80 transition">
               Submit
             </button>
           )}

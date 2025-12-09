@@ -10,7 +10,9 @@ type RiwayatType = {
   jenisCucian: string;
   berat: number;
   tipePembayaran: string;
-  addOn: string;
+  addOn: string[];
+  harga: string;
+  noHp: Int8Array;
   createdAt: string;
 };
 
@@ -67,6 +69,12 @@ const Riwayat = () => {
                       Add On
                     </th>
                     <th className="p-3 border border-gray-700 whitespace-nowrap">
+                      Harga
+                    </th>
+                    <th className="p-3 border border-gray-700 whitespace-nowrap">
+                      No Hp
+                    </th>
+                    <th className="p-3 border border-gray-700 whitespace-nowrap">
                       Tanggal
                     </th>
                   </tr>
@@ -82,18 +90,28 @@ const Riwayat = () => {
                   ) : (
                     riwayat.map((item) => (
                       <tr key={item.id} className="border border-gray-800">
-                        <td className="p-3 whitespace-nowrap">{item.nama}</td>
-                        <td className="p-3 whitespace-nowrap">
+                        <td className="p-3 whitespace-nowrap capitalize">
+                          {item.nama}
+                        </td>
+                        <td className="p-3 whitespace-nowrap capitalize">
                           {item.jenisCucian}
                         </td>
-                        <td className="p-3 whitespace-nowrap">
+                        <td className="p-3 whitespace-nowrap capitalize">
                           {item.berat} kg
                         </td>
-                        <td className="p-3 whitespace-nowrap">
+                        <td className="p-3 whitespace-nowrap capitalize">
                           {item.tipePembayaran}
                         </td>
+                        <td className="p-3 whitespace-nowrap capitalize">
+                          {item.addOn && item.addOn.length > 0
+                            ? item.addOn.join(", ")
+                            : "-"}
+                        </td>
                         <td className="p-3 whitespace-nowrap">
-                          {item.addOn || "-"}
+                          {item.harga || "-"}
+                        </td>
+                        <td className="p-3 whitespace-nowrap">
+                          {item.noHp || "-"}
                         </td>
                         <td className="p-3 whitespace-nowrap">
                           {new Date(item.createdAt).toLocaleString("id-ID")}
