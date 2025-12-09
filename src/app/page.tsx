@@ -1,102 +1,146 @@
 "use client";
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { toast } from "react-toastify";
 import Sidebar from "@/components/sidebar";
 import ClientLayout from "@/components/layout/ClientLayout";
 import { AiOutlineLoading3Quarters } from "react-icons/ai";
+import ModalKonfirmasi from "@/components/modal-konfirmasi";
+
+const addonPrices: any = {
+  parfum: 2000,
+  deterjen: 1000,
+  pewangi: 1000,
+  dropoff: 3000,
+};
+
+const laundryPrices: any = {
+  "cuci kering": 7000,
+  "cuci lipat": 9000,
+  "cuci setrika": 12000,
+};
 
 const LaundryForm = () => {
   const [form, setForm] = useState({
     nama: "",
-    jenisCucian: "",
+    jenisCucian: [] as string[],
     weight: "",
     jenisPembayaran: "",
     addon: [] as string[],
-    harga: "7000",
+    harga: "0",
     noHp: "",
   });
+
   const [loading, setLoading] = useState(false);
   const [errors, setErrors] = useState<any>({});
+  const [showModal, setShowModal] = useState(false);
+  const [pendingData, setPendingData] = useState<any>(null);
 
   const handleChange = (e: any) => {
     setForm({ ...form, [e.target.name]: e.target.value });
   };
+
+  const handleLaundryChange = (e: any) => {
+    const { value, checked } = e.target;
+
+    setForm((prev: any) => {
+      let updated = checked
+        ? [...prev.jenisCucian, value]
+        : prev.jenisCucian.filter((item: string) => item !== value);
+
+      return { ...prev, jenisCucian: updated };
+    });
+  };
+
   const handleAddonChange = (e: any) => {
     const { value, checked } = e.target;
 
-    if (checked) {
-      setForm((prev) => ({
-        ...prev,
-        addon: [...prev.addon, value],
-      }));
-    } else {
-      setForm((prev) => ({
-        ...prev,
-        addon: prev.addon.filter((item) => item !== value),
-      }));
-    }
+    setForm((prev: any) => {
+      let updated = checked
+        ? [...prev.addon, value]
+        : prev.addon.filter((item: string) => item !== value);
+
+      return { ...prev, addon: updated };
+    });
   };
 
   const validate = () => {
     let newErrors: any = {};
 
     if (!form.nama.trim()) newErrors.nama = "Nama jangan kosong, bro.";
-    if (!form.jenisCucian.trim())
-      newErrors.jenisCucian = "Jenis cucian wajib diisi.";
+    if (form.jenisCucian.length === 0)
+      newErrors.jenisCucian = "Pilih minimal 1 jenis cucian.";
     if (!form.weight.trim() || isNaN(Number(form.weight)))
-      newErrors.weight = "Berat harus angka, jangan ngadi-ngadi.";
+      newErrors.weight = "Berat harus angka.";
     if (!form.jenisPembayaran.trim())
       newErrors.jenisPembayaran = "Pilih metode pembayaran.";
-    if (!form.harga.trim() || isNaN(Number(form.harga)))
-      newErrors.harga = "Harga harus angka, jangan ngadi-ngadi.";
     if (!form.noHp.trim() || isNaN(Number(form.noHp)))
-      newErrors.noHp = "No hp harus angka, jangan ngadi-ngadi.";
+      newErrors.noHp = "No HP harus angka.";
 
     setErrors(newErrors);
-
     return Object.keys(newErrors).length === 0;
   };
 
-  const handleSubmit = async (e: any) => {
+  // ===================== AUTO UPDATE HARGA ======================
+  useEffect(() => {
+    let total = 7000;
+
+    form.jenisCucian.forEach((item) => {
+      total += laundryPrices[item] || 0;
+    });
+
+    form.addon.forEach((item) => {
+      total += addonPrices[item] || 0;
+    });
+
+    setForm((prev) => ({ ...prev, harga: total.toString() }));
+  }, [form.jenisCucian, form.addon]);
+
+  // =============================================================
+
+  const handleSubmit = (e: any) => {
     e.preventDefault();
     if (!validate()) return;
 
+    // simpan data yang mau dikirim
+    setPendingData(form);
+
+    // munculkan modal
+    setShowModal(true);
+  };
+  const handleConfirm = async () => {
     setLoading(true);
 
     try {
       const res = await fetch("/api/add-laundry", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({
-          nama: form.nama,
-          jenisCucian: form.jenisCucian,
-          weight: form.weight,
-          jenisPembayaran: form.jenisPembayaran,
-          addon: form.addon,
-          harga: form.harga,
-          noHp: form.noHp,
-        }),
+        body: JSON.stringify(pendingData),
       });
 
       const data = await res.json();
 
       if (!res.ok) {
-        toast.error(data.error || "Error, coba tanya tim IT.");
+        toast.error(data.error || "Error, coba ulang lagi.");
         return;
       }
+
       toast.success("Mantap, data ke-save cuy.");
+
+      // Reset form
       setForm({
         nama: "",
-        jenisCucian: "",
+        jenisCucian: [],
         weight: "",
         jenisPembayaran: "",
         addon: [],
-        harga: "",
+        harga: "0",
         noHp: "",
       });
+
       setErrors({});
+      setShowModal(false);
     } catch (err) {
-      toast.error("Servernya ngadat cuyy, coba contact tim IT.");
+      toast.error("Servernya ngadat cuyy.");
     } finally {
       setLoading(false);
     }
@@ -117,27 +161,31 @@ const LaundryForm = () => {
               name="nama"
               value={form.nama}
               onChange={handleChange}
-              className="border rounded-lg px-3 py-2 focus:ring-2 focus:ring-black/40 outline-none"
+              className="border rounded-lg px-3 py-2 outline-none"
             />
-            {errors.nama && (
-              <span className="text-red-500 text-sm">{errors.nama}</span>
-            )}
+            {errors.nama && <span className="text-red-500">{errors.nama}</span>}
           </div>
 
-          {/* JENIS CUCIAN */}
+          {/* JENIS CUCIAN MULTI */}
           <div className="flex flex-col gap-1">
             <label className="text-sm font-medium">Jenis Cucian</label>
-            <select
-              name="jenisCucian"
-              value={form.jenisCucian}
-              onChange={handleChange}
-              className="border rounded-lg px-3 py-2 bg-[#084428] focus:ring-2 focus:ring-black/40 outline-none"
-            >
-              <option value="">-- Pilih Jenis --</option>
-              <option value="cuci kering">Cuci Kering</option>
-            </select>
+
+            <div className="flex gap-2 capitalize">
+              {["cuci", "kering"].map((item) => (
+                <label key={item} className="flex items-center gap-2">
+                  <input
+                    type="checkbox"
+                    value={item}
+                    checked={form.jenisCucian.includes(item)}
+                    onChange={handleLaundryChange}
+                  />
+                  {item.charAt(0).toUpperCase() + item.slice(1)}
+                </label>
+              ))}
+            </div>
+
             {errors.jenisCucian && (
-              <span className="text-red-500 text-sm">{errors.jenisCucian}</span>
+              <span className="text-red-500">{errors.jenisCucian}</span>
             )}
           </div>
 
@@ -149,10 +197,10 @@ const LaundryForm = () => {
               name="weight"
               value={form.weight}
               onChange={handleChange}
-              className="border rounded-lg px-3 py-2 focus:ring-2 focus:ring-black/40 outline-none"
+              className="border rounded-lg px-3 py-2 outline-none"
             />
             {errors.weight && (
-              <span className="text-red-500 text-sm">{errors.weight}</span>
+              <span className="text-red-500">{errors.weight}</span>
             )}
           </div>
 
@@ -163,68 +211,33 @@ const LaundryForm = () => {
               name="jenisPembayaran"
               value={form.jenisPembayaran}
               onChange={handleChange}
-              className="border rounded-lg px-3 py-2 bg-[#084428] focus:ring-2 focus:ring-black/40 outline-none"
+              className="border rounded-lg px-3 py-2 bg-[#084428]"
             >
-              <option value="">-- Pilih Pembayaran --</option>
+              <option value="">-- Pilih --</option>
               <option value="cash">Cash</option>
               <option value="qris">QRIS</option>
               <option value="transfer">Transfer Bank</option>
             </select>
             {errors.jenisPembayaran && (
-              <span className="text-red-500 text-sm">
-                {errors.jenisPembayaran}
-              </span>
+              <span className="text-red-500">{errors.jenisPembayaran}</span>
             )}
           </div>
 
           {/* ADD ON */}
-          <div className="flex flex-col gap-2">
-            <label className="text-white font-medium">AddOn</label>
-
-            <div className="flex justify-between">
-              <label className="flex items-center gap-2 cursor-pointer">
-                <input
-                  type="checkbox"
-                  name="addon"
-                  value="parfum"
-                  checked={form.addon.includes("parfum")}
-                  onChange={handleAddonChange}
-                />
-                Parfum
-              </label>
-
-              <label className="flex items-center gap-2 cursor-pointer">
-                <input
-                  type="checkbox"
-                  name="addon"
-                  value="deterjen"
-                  checked={form.addon.includes("deterjen")}
-                  onChange={handleAddonChange}
-                />
-                Deterjen
-              </label>
-
-              <label className="flex items-center gap-2 cursor-pointer">
-                <input
-                  type="checkbox"
-                  name="addon"
-                  value="pewangi"
-                  checked={form.addon.includes("pewangi")}
-                  onChange={handleAddonChange}
-                />
-                Pewangi
-              </label>
-
-              <label className="flex items-center gap-2 cursor-pointer">
-                <input
-                  type="checkbox"
-                  name="addon"
-                  value="dropoff"
-                  checked={form.addon.includes("dropoff")}
-                  onChange={handleAddonChange}
-                />
-                Drop-Off
-              </label>
+          <div className="flex flex-col gap-1">
+            <label className="text-sm font-medium">Add-On</label>
+            <div className="flex flex-wrap justify-between gap-x-5">
+              {["parfum", "deterjen", "pewangi", "dropoff"].map((item) => (
+                <label key={item} className="flex items-center gap-2">
+                  <input
+                    type="checkbox"
+                    value={item}
+                    checked={form.addon.includes(item)}
+                    onChange={handleAddonChange}
+                  />
+                  {item.toUpperCase()} (+{addonPrices[item]})
+                </label>
+              ))}
             </div>
           </div>
 
@@ -236,30 +249,33 @@ const LaundryForm = () => {
               name="noHp"
               value={form.noHp}
               onChange={handleChange}
-              className="border rounded-lg px-3 py-2 focus:ring-2 focus:ring-black/40 outline-none"
+              className="border rounded-lg px-3 py-2 outline-none"
             />
-            {errors.noHp && (
-              <span className="text-red-500 text-sm">{errors.noHp}</span>
-            )}
+            {errors.noHp && <span className="text-red-500">{errors.noHp}</span>}
           </div>
+
           {/* HARGA */}
           <div className="flex flex-col gap-1">
-            <label className="text-sm font-medium">Harga</label>
+            <label className="text-sm font-medium">Harga Total</label>
             <input
               type="text"
               name="harga"
               value={form.harga}
               disabled
-              className="border cursor-not-allowed bg-[#084428] rounded-lg px-3 py-2 focus:ring-2 focus:ring-black/40 outline-none"
+              className="border bg-[#084428] rounded-lg px-3 py-2 cursor-not-allowed"
             />
-            {errors.harga && (
-              <span className="text-red-500 text-sm">{errors.harga}</span>
-            )}
           </div>
+          {showModal && (
+            <ModalKonfirmasi
+              pendingData={pendingData}
+              onClose={() => setShowModal(false)}
+              onConfirm={handleConfirm}
+            />
+          )}
 
           {loading ? (
-            <button className="w-full py-3 rounded-lg bg-white flex justify-center items-center text-black font-semibold hover:bg-black/80 transition">
-              <AiOutlineLoading3Quarters className="animate-spin" width={50} />
+            <button className="w-full py-3 rounded-lg bg-white flex justify-center items-center text-black font-semibold">
+              <AiOutlineLoading3Quarters className="animate-spin" />
             </button>
           ) : (
             <button className="w-full py-3 rounded-lg bg-white text-black font-bold hover:bg-black/80 transition">
