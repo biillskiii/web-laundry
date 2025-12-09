@@ -13,7 +13,8 @@ model Riwayat {
   jenisCucian    String
   berat          Float
   tipePembayaran String
-  addOn          String
+  addOn          String[]
   harga          String
+  noHp           String
   createdAt      DateTime @default(now())
 }

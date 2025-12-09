@@ -525,6 +525,7 @@ export const RiwayatScalarFieldEnum = {
   tipePembayaran: 'tipePembayaran',
   addOn: 'addOn',
   harga: 'harga',
+  noHp: 'noHp',
   createdAt: 'createdAt'
 } as const
 

@@ -42,8 +42,8 @@ export type RiwayatMinAggregateOutputType = {
   jenisCucian: string | null
   berat: number | null
   tipePembayaran: string | null
-  addOn: string | null
   harga: string | null
+  noHp: string | null
   createdAt: Date | null
 }
 
@@ -53,8 +53,8 @@ export type RiwayatMaxAggregateOutputType = {
   jenisCucian: string | null
   berat: number | null
   tipePembayaran: string | null
-  addOn: string | null
   harga: string | null
+  noHp: string | null
   createdAt: Date | null
 }
 
@@ -66,6 +66,7 @@ export type RiwayatCountAggregateOutputType = {
   tipePembayaran: number
   addOn: number
   harga: number
+  noHp: number
   createdAt: number
   _all: number
 }
@@ -87,8 +88,8 @@ export type RiwayatMinAggregateInputType = {
   jenisCucian?: true
   berat?: true
   tipePembayaran?: true
-  addOn?: true
   harga?: true
+  noHp?: true
   createdAt?: true
 }
 
@@ -98,8 +99,8 @@ export type RiwayatMaxAggregateInputType = {
   jenisCucian?: true
   berat?: true
   tipePembayaran?: true
-  addOn?: true
   harga?: true
+  noHp?: true
   createdAt?: true
 }
 
@@ -111,6 +112,7 @@ export type RiwayatCountAggregateInputType = {
   tipePembayaran?: true
   addOn?: true
   harga?: true
+  noHp?: true
   createdAt?: true
   _all?: true
 }
@@ -207,8 +209,9 @@ export type RiwayatGroupByOutputType = {
   jenisCucian: string
   berat: number
   tipePembayaran: string
-  addOn: string
+  addOn: string[]
   harga: string
+  noHp: string
   createdAt: Date
   _count: RiwayatCountAggregateOutputType | null
   _avg: RiwayatAvgAggregateOutputType | null
@@ -241,8 +244,9 @@ export type RiwayatWhereInput = {
   jenisCucian?: Prisma.StringFilter<"Riwayat"> | string
   berat?: Prisma.FloatFilter<"Riwayat"> | number
   tipePembayaran?: Prisma.StringFilter<"Riwayat"> | string
-  addOn?: Prisma.StringFilter<"Riwayat"> | string
+  addOn?: Prisma.StringNullableListFilter<"Riwayat">
   harga?: Prisma.StringFilter<"Riwayat"> | string
+  noHp?: Prisma.StringFilter<"Riwayat"> | string
   createdAt?: Prisma.DateTimeFilter<"Riwayat"> | Date | string
 }
 
@@ -254,6 +258,7 @@ export type RiwayatOrderByWithRelationInput = {
   tipePembayaran?: Prisma.SortOrder
   addOn?: Prisma.SortOrder
   harga?: Prisma.SortOrder
+  noHp?: Prisma.SortOrder
   createdAt?: Prisma.SortOrder
 }
 
@@ -266,8 +271,9 @@ export type RiwayatWhereUniqueInput = Prisma.AtLeast<{
   jenisCucian?: Prisma.StringFilter<"Riwayat"> | string
   berat?: Prisma.FloatFilter<"Riwayat"> | number
   tipePembayaran?: Prisma.StringFilter<"Riwayat"> | string
-  addOn?: Prisma.StringFilter<"Riwayat"> | string
+  addOn?: Prisma.StringNullableListFilter<"Riwayat">
   harga?: Prisma.StringFilter<"Riwayat"> | string
+  noHp?: Prisma.StringFilter<"Riwayat"> | string
   createdAt?: Prisma.DateTimeFilter<"Riwayat"> | Date | string
 }, "id">
 
@@ -279,6 +285,7 @@ export type RiwayatOrderByWithAggregationInput = {
   tipePembayaran?: Prisma.SortOrder
   addOn?: Prisma.SortOrder
   harga?: Prisma.SortOrder
+  noHp?: Prisma.SortOrder
   createdAt?: Prisma.SortOrder
   _count?: Prisma.RiwayatCountOrderByAggregateInput
   _avg?: Prisma.RiwayatAvgOrderByAggregateInput
@@ -296,8 +303,9 @@ export type RiwayatScalarWhereWithAggregatesInput = {
   jenisCucian?: Prisma.StringWithAggregatesFilter<"Riwayat"> | string
   berat?: Prisma.FloatWithAggregatesFilter<"Riwayat"> | number
   tipePembayaran?: Prisma.StringWithAggregatesFilter<"Riwayat"> | string
-  addOn?: Prisma.StringWithAggregatesFilter<"Riwayat"> | string
+  addOn?: Prisma.StringNullableListFilter<"Riwayat">
   harga?: Prisma.StringWithAggregatesFilter<"Riwayat"> | string
+  noHp?: Prisma.StringWithAggregatesFilter<"Riwayat"> | string
   createdAt?: Prisma.DateTimeWithAggregatesFilter<"Riwayat"> | Date | string
 }
 
@@ -306,8 +314,9 @@ export type RiwayatCreateInput = {
   jenisCucian: string
   berat: number
   tipePembayaran: string
-  addOn: string
+  addOn?: Prisma.RiwayatCreateaddOnInput | string[]
   harga: string
+  noHp: string
   createdAt?: Date | string
 }
 
@@ -317,8 +326,9 @@ export type RiwayatUncheckedCreateInput = {
   jenisCucian: string
   berat: number
   tipePembayaran: string
-  addOn: string
+  addOn?: Prisma.RiwayatCreateaddOnInput | string[]
   harga: string
+  noHp: string
   createdAt?: Date | string
 }
 
@@ -327,8 +337,9 @@ export type RiwayatUpdateInput = {
   jenisCucian?: Prisma.StringFieldUpdateOperationsInput | string
   berat?: Prisma.FloatFieldUpdateOperationsInput | number
   tipePembayaran?: Prisma.StringFieldUpdateOperationsInput | string
-  addOn?: Prisma.StringFieldUpdateOperationsInput | string
+  addOn?: Prisma.RiwayatUpdateaddOnInput | string[]
   harga?: Prisma.StringFieldUpdateOperationsInput | string
+  noHp?: Prisma.StringFieldUpdateOperationsInput | string
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
 }
 
@@ -338,8 +349,9 @@ export type RiwayatUncheckedUpdateInput = {
   jenisCucian?: Prisma.StringFieldUpdateOperationsInput | string
   berat?: Prisma.FloatFieldUpdateOperationsInput | number
   tipePembayaran?: Prisma.StringFieldUpdateOperationsInput | string
-  addOn?: Prisma.StringFieldUpdateOperationsInput | string
+  addOn?: Prisma.RiwayatUpdateaddOnInput | string[]
   harga?: Prisma.StringFieldUpdateOperationsInput | string
+  noHp?: Prisma.StringFieldUpdateOperationsInput | string
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
 }
 
@@ -349,8 +361,9 @@ export type RiwayatCreateManyInput = {
   jenisCucian: string
   berat: number
   tipePembayaran: string
-  addOn: string
+  addOn?: Prisma.RiwayatCreateaddOnInput | string[]
   harga: string
+  noHp: string
   createdAt?: Date | string
 }
 
@@ -359,8 +372,9 @@ export type RiwayatUpdateManyMutationInput = {
   jenisCucian?: Prisma.StringFieldUpdateOperationsInput | string
   berat?: Prisma.FloatFieldUpdateOperationsInput | number
   tipePembayaran?: Prisma.StringFieldUpdateOperationsInput | string
-  addOn?: Prisma.StringFieldUpdateOperationsInput | string
+  addOn?: Prisma.RiwayatUpdateaddOnInput | string[]
   harga?: Prisma.StringFieldUpdateOperationsInput | string
+  noHp?: Prisma.StringFieldUpdateOperationsInput | string
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
 }
 
@@ -370,9 +384,18 @@ export type RiwayatUncheckedUpdateManyInput = {
   jenisCucian?: Prisma.StringFieldUpdateOperationsInput | string
   berat?: Prisma.FloatFieldUpdateOperationsInput | number
   tipePembayaran?: Prisma.StringFieldUpdateOperationsInput | string
-  addOn?: Prisma.StringFieldUpdateOperationsInput | string
+  addOn?: Prisma.RiwayatUpdateaddOnInput | string[]
   harga?: Prisma.StringFieldUpdateOperationsInput | string
+  noHp?: Prisma.StringFieldUpdateOperationsInput | string
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+}
+
+export type StringNullableListFilter<$PrismaModel = never> = {
+  equals?: string[] | Prisma.ListStringFieldRefInput<$PrismaModel> | null
+  has?: string | Prisma.StringFieldRefInput<$PrismaModel> | null
+  hasEvery?: string[] | Prisma.ListStringFieldRefInput<$PrismaModel>
+  hasSome?: string[] | Prisma.ListStringFieldRefInput<$PrismaModel>
+  isEmpty?: boolean
 }
 
 export type RiwayatCountOrderByAggregateInput = {
@@ -383,6 +406,7 @@ export type RiwayatCountOrderByAggregateInput = {
   tipePembayaran?: Prisma.SortOrder
   addOn?: Prisma.SortOrder
   harga?: Prisma.SortOrder
+  noHp?: Prisma.SortOrder
   createdAt?: Prisma.SortOrder
 }
 
@@ -397,8 +421,8 @@ export type RiwayatMaxOrderByAggregateInput = {
   jenisCucian?: Prisma.SortOrder
   berat?: Prisma.SortOrder
   tipePembayaran?: Prisma.SortOrder
-  addOn?: Prisma.SortOrder
   harga?: Prisma.SortOrder
+  noHp?: Prisma.SortOrder
   createdAt?: Prisma.SortOrder
 }
 
@@ -408,14 +432,18 @@ export type RiwayatMinOrderByAggregateInput = {
   jenisCucian?: Prisma.SortOrder
   berat?: Prisma.SortOrder
   tipePembayaran?: Prisma.SortOrder
-  addOn?: Prisma.SortOrder
   harga?: Prisma.SortOrder
+  noHp?: Prisma.SortOrder
   createdAt?: Prisma.SortOrder
 }
 
 export type RiwayatSumOrderByAggregateInput = {
   id?: Prisma.SortOrder
   berat?: Prisma.SortOrder
+}
+
+export type RiwayatCreateaddOnInput = {
+  set: string[]
 }
 
 export type StringFieldUpdateOperationsInput = {
@@ -428,6 +456,11 @@ export type FloatFieldUpdateOperationsInput = {
   decrement?: number
   multiply?: number
   divide?: number
+}
+
+export type RiwayatUpdateaddOnInput = {
+  set?: string[]
+  push?: string | string[]
 }
 
 export type DateTimeFieldUpdateOperationsInput = {
@@ -452,6 +485,7 @@ export type RiwayatSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs 
   tipePembayaran?: boolean
   addOn?: boolean
   harga?: boolean
+  noHp?: boolean
   createdAt?: boolean
 }, ExtArgs["result"]["riwayat"]>
 
@@ -463,6 +497,7 @@ export type RiwayatSelectCreateManyAndReturn<ExtArgs extends runtime.Types.Exten
   tipePembayaran?: boolean
   addOn?: boolean
   harga?: boolean
+  noHp?: boolean
   createdAt?: boolean
 }, ExtArgs["result"]["riwayat"]>
 
@@ -474,6 +509,7 @@ export type RiwayatSelectUpdateManyAndReturn<ExtArgs extends runtime.Types.Exten
   tipePembayaran?: boolean
   addOn?: boolean
   harga?: boolean
+  noHp?: boolean
   createdAt?: boolean
 }, ExtArgs["result"]["riwayat"]>
 
@@ -485,10 +521,11 @@ export type RiwayatSelectScalar = {
   tipePembayaran?: boolean
   addOn?: boolean
   harga?: boolean
+  noHp?: boolean
   createdAt?: boolean
 }
 
-export type RiwayatOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "nama" | "jenisCucian" | "berat" | "tipePembayaran" | "addOn" | "harga" | "createdAt", ExtArgs["result"]["riwayat"]>
+export type RiwayatOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "nama" | "jenisCucian" | "berat" | "tipePembayaran" | "addOn" | "harga" | "noHp" | "createdAt", ExtArgs["result"]["riwayat"]>
 
 export type $RiwayatPayload<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   name: "Riwayat"
@@ -499,8 +536,9 @@ export type $RiwayatPayload<ExtArgs extends runtime.Types.Extensions.InternalArg
     jenisCucian: string
     berat: number
     tipePembayaran: string
-    addOn: string
+    addOn: string[]
     harga: string
+    noHp: string
     createdAt: Date
   }, ExtArgs["result"]["riwayat"]>
   composites: {}
@@ -930,8 +968,9 @@ export interface RiwayatFieldRefs {
   readonly jenisCucian: Prisma.FieldRef<"Riwayat", 'String'>
   readonly berat: Prisma.FieldRef<"Riwayat", 'Float'>
   readonly tipePembayaran: Prisma.FieldRef<"Riwayat", 'String'>
-  readonly addOn: Prisma.FieldRef<"Riwayat", 'String'>
+  readonly addOn: Prisma.FieldRef<"Riwayat", 'String[]'>
   readonly harga: Prisma.FieldRef<"Riwayat", 'String'>
+  readonly noHp: Prisma.FieldRef<"Riwayat", 'String'>
   readonly createdAt: Prisma.FieldRef<"Riwayat", 'DateTime'>
 }
     

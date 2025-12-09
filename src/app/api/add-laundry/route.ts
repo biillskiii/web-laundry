@@ -5,11 +5,12 @@ import { prisma } from "@/lib/prisma";
 
 export async function POST(req: Request) {
   const body = await req.json();
-  const { nama, jenisCucian, weight, jenisPembayaran, addon } = body;
+  const { nama, jenisCucian, weight, jenisPembayaran, addon, harga, noHp } =
+    body;
 
-  if (!nama || !jenisCucian || !weight || !jenisPembayaran) {
+  if (!nama || !jenisCucian || !weight || !jenisPembayaran || !harga || !noHp) {
     return NextResponse.json(
-      { error: "Data kurang lengkap cuk." },
+      { error: "Data kurang lengkap." },
       { status: 400 }
     );
   }
@@ -20,7 +21,9 @@ export async function POST(req: Request) {
       jenisCucian,
       berat: parseFloat(weight),
       tipePembayaran: jenisPembayaran,
-      addOn: addon || "",
+      addOn: Array.isArray(addon) ? addon : [], // INI FIX NYA
+      harga: harga || "",
+      noHp: String(noHp),
     },
   });
 
