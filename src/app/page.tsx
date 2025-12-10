@@ -14,9 +14,8 @@ const addonPrices: any = {
 };
 
 const laundryPrices: any = {
-  "cuci kering": 7000,
-  "cuci lipat": 9000,
-  "cuci setrika": 12000,
+  cuci: 7000,
+  kering: 8000,
 };
 
 const LaundryForm = () => {
@@ -82,12 +81,20 @@ const LaundryForm = () => {
 
   // ===================== AUTO UPDATE HARGA ======================
   useEffect(() => {
-    let total = 7000;
+    let total = 0;
 
-    form.jenisCucian.forEach((item) => {
-      total += laundryPrices[item] || 0;
-    });
+    const selected = form.jenisCucian;
 
+    if (selected.includes("cuci") && selected.includes("kering")) {
+      total += 14000;
+    } else {
+      selected.forEach((item) => {
+        if (item === "cuci") total += 7000;
+        if (item === "kering") total += 8000;
+      });
+    }
+
+    // Add-on
     form.addon.forEach((item) => {
       total += addonPrices[item] || 0;
     });
