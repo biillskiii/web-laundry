@@ -35,7 +35,27 @@ const LaundryForm = () => {
   const [pendingData, setPendingData] = useState<any>(null);
 
   const handleChange = (e: any) => {
-    setForm({ ...form, [e.target.name]: e.target.value });
+    const { name, value } = e.target;
+
+    // khusus weight, batasi maksimal 3
+    if (name === "weight") {
+      if (Number(value) > 3) {
+        setErrors((prev: any) => ({
+          ...prev,
+          weight: "Berat maksimal 3 kg bro, jangan ngadi-ngadi.",
+        }));
+        return; // stop biar nilai gak masuk
+      } else {
+        // hapus error kalo udah bener
+        setErrors((prev: any) => {
+          const newErr = { ...prev };
+          delete newErr.weight;
+          return newErr;
+        });
+      }
+    }
+
+    setForm({ ...form, [name]: value });
   };
 
   const handleLaundryChange = (e: any) => {
@@ -70,6 +90,8 @@ const LaundryForm = () => {
       newErrors.jenisCucian = "Pilih minimal 1 jenis cucian.";
     if (!form.weight.trim() || isNaN(Number(form.weight)))
       newErrors.weight = "Berat harus angka.";
+    if (Number(form.weight) > 3)
+      newErrors.weight = "Bro, maksimal 3 kg. Jangan sok kuat mesinnya.";
     if (!form.jenisPembayaran.trim())
       newErrors.jenisPembayaran = "Pilih metode pembayaran.";
     if (!form.noHp.trim() || isNaN(Number(form.noHp)))
@@ -285,7 +307,7 @@ const LaundryForm = () => {
               <AiOutlineLoading3Quarters className="animate-spin" />
             </button>
           ) : (
-            <button className="w-full py-3 rounded-lg bg-white text-black font-bold hover:bg-black/80 transition">
+            <button className="w-full py-3 rounded-lg bg-white text-black font-bold  transition">
               Submit
             </button>
           )}
